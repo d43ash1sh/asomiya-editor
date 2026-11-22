@@ -6,7 +6,7 @@ import { OutputTerminal } from '../terminal/OutputTerminal';
 import { PythonPreview } from '../terminal/PythonPreview';
 import { ProblemsView } from '../terminal/ProblemsView';
 import type { editor } from 'monaco-editor';
-import type { DigitSetting } from 'asomiya';
+import type { DigitSetting, MessageLanguage } from 'asomiya';
 
 interface BottomPanelProps {
   isOpen: boolean;
@@ -23,6 +23,9 @@ interface BottomPanelProps {
   sourceCode: string;
   digits: DigitSetting;
   diagnostics: editor.IMarkerData[];
+  theme?: 'dark' | 'light';
+  fontSize?: number;
+  lang?: MessageLanguage;
 }
 
 export const BottomPanel: React.FC<BottomPanelProps> = ({
@@ -40,6 +43,9 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({
   sourceCode,
   digits,
   diagnostics,
+  theme,
+  fontSize,
+  lang,
 }) => {
   const [height, setHeight] = useState(240);
   const isDraggingRef = useRef(false);
@@ -224,6 +230,10 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({
             stdinBuffer={stdinBuffer}
             setStdinBuffer={setStdinBuffer}
             activeFileName={activeFileName}
+            theme={theme}
+            fontSize={fontSize}
+            digits={digits}
+            lang={lang}
           />
         )}
         {activeTab === 'python' && (

@@ -357,6 +357,9 @@ export const App: React.FC = () => {
             activeFileName={activeFile?.name || ''}
             sourceCode={activeFileContent}
             digits={settings.digits}
+            theme={settings.theme}
+            fontSize={settings.fontSize}
+            lang={settings.lang}
             diagnostics={diagnostics}
           />
         </div>

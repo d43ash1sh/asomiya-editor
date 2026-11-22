@@ -198,3 +198,27 @@ input:focus, textarea:focus, select:focus {
 .monaco-editor .suggest-widget .monaco-list-row .label-name {
   font-family: 'Kohinoor Bangla', 'Noto Sans Bengali', sans-serif !important;
 }
+
+/* xterm.js terminal styling & scrollbars */
+.xterm {
+  height: 100%;
+  padding: 4px 6px;
+}
+
+.xterm .xterm-viewport {
+  background-color: transparent !important;
+}
+
+.xterm .xterm-screen {
+  padding-bottom: 4px;
+}
+
+.xterm-viewport::-webkit-scrollbar {
+  width: 8px;
+}
+
+.xterm-viewport::-webkit-scrollbar-thumb {
+  background: var(--vscode-hover);
+  border-radius: 4px;
+}
+

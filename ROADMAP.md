@@ -101,12 +101,17 @@ The following items are prioritized for subsequent agent iterations:
      - Variables in the current lexical scope (`Environment`)
      - Controls: **Resume (`F5`)**, **Step Over (`F10`)**, **Step Into (`F11`)**, **Stop (`Shift+F5`)**.
 
-### Priority 2: Terminal Upgrade to `xterm.js`
+### Priority 2: Terminal Upgrade to `xterm.js` [COMPLETED]
 - **Goal:** True ANSI terminal with interactive command prompt and history.
-- **Tasks:**
-  1. Add `xterm` and `@xterm/addon-fit` to `package.json`.
-  2. Mount `xterm.js` in `OutputTerminal.tsx`.
-  3. Implement full interactive REPL mode where typing `asomiya` starts an interactive Assamese prompt with arrow-key history (`↑`/`↓`).
+- **Implemented:**
+  - Installed `@xterm/xterm` (v5+) and `@xterm/addon-fit`.
+  - Full ANSI escape sequence support with matched `asomiya.codes` color theme (Dark `#1c1917` & Light `#ffffff`).
+  - Integrated `BrowserReplSession` (`src/runner/repl.ts`) running the Asomiya interpreter directly in the browser with `allowTopLevelRedeclaration: true`.
+  - Multi-line statements in REPL with continuation prompt (`...>` / `P001` incomplete detection).
+  - Full line editor with Unicode grapheme support (`asomiya.graphemes`): cursor navigation (Left/Right/Home/End), backspace, delete.
+  - Command history with Arrow-Up (`↑`) and Arrow-Down (`↓`) recall, draft line preservation, and `localStorage` persistence.
+  - Built-in REPL commands: `help` / `সহায়`, `run` / `চলাওক`, `clear` / `পৰিষ্কাৰ`, `reset` / `পুনৰাৰম্ভ`.
+  - Dual execution mode: live script streaming on Run + instant interactive REPL when idle.
 
 ### Priority 3: Multi-File Imports (`আমদানি` / `import`)
 - **Goal:** Enable multi-file modular code inside the virtual workspace.
