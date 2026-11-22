@@ -1,6 +1,6 @@
 # editor.asomiya.codes — Dedicated Web IDE for Asomiya (অসমীয়া)
 
-> **Repository Branch:** [`editor`](https://github.com/d43ash1sh/asomiya/tree/editor) on [`d43ash1sh/asomiya`](https://github.com/d43ash1sh/asomiya)
+> **Live:** https://editor.asomiya.codes · **Repository:** [`d43ash1sh/asomiya-editor`](https://github.com/d43ash1sh/asomiya-editor) · Language: [`d43ash1sh/asomiya`](https://github.com/d43ash1sh/asomiya)
 
 A modern, dedicated, browser-based development environment for the **অসমীয়া (Asomiya)** programming language, designed with full **vscode.dev** visual and functional fidelity.
 
@@ -37,8 +37,10 @@ A modern, dedicated, browser-based development environment for the **অসম�
 
 ### Development
 ```bash
-# Navigate to the editor directory
-cd E:\editor.asomiya.codes
+# Clone and install
+git clone https://github.com/d43ash1sh/asomiya-editor.git
+cd asomiya-editor
+npm ci
 
 # Start the Vite development server
 npm run dev
