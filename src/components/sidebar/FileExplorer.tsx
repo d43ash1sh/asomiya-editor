@@ -59,10 +59,15 @@ export const FileExplorer: React.FC<FileExplorerProps> = ({
   const handleImportZip = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      importZipToProject(project, file).then((updated) => {
-        setProject(() => updated);
-      });
+      importZipToProject(project, file)
+        .then((updated) => {
+          setProject(() => updated);
+        })
+        .catch((err: unknown) => {
+          alert(err instanceof Error ? err.message : 'Could not import this zip file.');
+        });
     }
+    e.target.value = '';
   };
 
   const handleOpenFolder = async () => {
