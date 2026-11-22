@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="as" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23007acc'/><text x='50%' y='55%' dominant-baseline='central' text-anchor='middle' font-family='serif' font-size='56' font-weight='bold' fill='white'>অ</text></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Asomiya Web Editor — editor.asomiya.codes</title>
+    
+    <!-- Fonts: Kohinoor Bangla declaration & Noto Sans Bengali fallback -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Noto+Sans+Bengali:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+      @font-face {
+        font-family: 'Kohinoor Bangla';
+        src: local('Kohinoor Bangla'),
+             local('KohinoorBangla-Regular'),
+             local('KohinoorBangla'),
+             local('Kohinoor-Bangla');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Kohinoor Bangla';
+        src: local('Kohinoor Bangla Medium'),
+             local('KohinoorBangla-Medium'),
+             local('KohinoorBangla-Semibold');
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Kohinoor Bangla';
+        src: local('Kohinoor Bangla Bold'),
+             local('KohinoorBangla-Bold'),
+             local('KohinoorBangla-Heavy');
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+    </style>
+  </head>
+  <body class="overflow-hidden m-0 p-0 select-none bg-[#1e1e1e] text-[#cccccc]">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

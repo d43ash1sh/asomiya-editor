@@ -1,0 +1,238 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { Terminal, Code2, AlertCircle, X, ChevronDown, ChevronUp } from 'lucide-react';
+import type { PanelTab } from '../../types';
+import type { RunResult } from '../../runner/execution';
+import { OutputTerminal } from '../terminal/OutputTerminal';
+import { PythonPreview } from '../terminal/PythonPreview';
+import { ProblemsView } from '../terminal/ProblemsView';
+import type { editor } from 'monaco-editor';
+import type { DigitSetting } from 'asomiya';
+
+interface BottomPanelProps {
+  isOpen: boolean;
+  onClose: () => void;
+  activeTab: PanelTab;
+  setActiveTab: (tab: PanelTab) => void;
+  lastResult: RunResult | null;
+  isRunning: boolean;
+  onClearTerminal: () => void;
+  onRun: () => void;
+  stdinBuffer: string;
+  setStdinBuffer: (val: string) => void;
+  activeFileName: string;
+  sourceCode: string;
+  digits: DigitSetting;
+  diagnostics: editor.IMarkerData[];
+}
+
+export const BottomPanel: React.FC<BottomPanelProps> = ({
+  isOpen,
+  onClose,
+  activeTab,
+  setActiveTab,
+  lastResult,
+  isRunning,
+  onClearTerminal,
+  onRun,
+  stdinBuffer,
+  setStdinBuffer,
+  activeFileName,
+  sourceCode,
+  digits,
+  diagnostics,
+}) => {
+  const [height, setHeight] = useState(240);
+  const isDraggingRef = useRef(false);
+  const startYRef = useRef(0);
+  const startHeightRef = useRef(240);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    isDraggingRef.current = true;
+    startYRef.current = e.clientY;
+    startHeightRef.current = height;
+    document.body.style.cursor = 'row-resize';
+  };
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDraggingRef.current) return;
+      const deltaY = startYRef.current - e.clientY;
+      const newHeight = Math.max(120, Math.min(window.innerHeight * 0.75, startHeightRef.current + deltaY));
+      setHeight(newHeight);
+    };
+
+    const handleMouseUp = () => {
+      isDraggingRef.current = false;
+      document.body.style.cursor = 'default';
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, []);
+
+  if (!isOpen) return null;
+
+  return (
+    <div
+      style={{
+        height,
+        backgroundColor: 'var(--vscode-panel-bg)',
+        borderTop: '1px solid var(--vscode-border)',
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'relative',
+        userSelect: 'none',
+        zIndex: 10,
+      }}
+    >
+      {/* Resizer handle */}
+      <div
+        onMouseDown={handleMouseDown}
+        style={{
+          position: 'absolute',
+          top: -3,
+          left: 0,
+          right: 0,
+          height: 6,
+          cursor: 'row-resize',
+          zIndex: 30,
+        }}
+      />
+
+      {/* Panel Header Tabs */}
+      <div
+        style={{
+          height: 30,
+          backgroundColor: 'var(--vscode-side-bg)',
+          borderBottom: '1px solid var(--vscode-border)',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '0 8px',
+        }}
+      >
+        <div style={{ display: 'flex', gap: 4, height: '100%', alignItems: 'center' }}>
+          {/* Terminal Tab */}
+          <button
+            onClick={() => setActiveTab('terminal')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 4,
+              padding: '0 10px',
+              height: '100%',
+              fontSize: 11,
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: 0.5,
+              color: activeTab === 'terminal' ? 'var(--vscode-text-bright)' : 'var(--vscode-text-muted)',
+              borderBottom: activeTab === 'terminal' ? '2px solid var(--vscode-activity-badge)' : '2px solid transparent',
+            }}
+          >
+            <Terminal size={12} />
+            <span>TERMINAL</span>
+          </button>
+
+          {/* Python Preview Tab */}
+          <button
+            onClick={() => setActiveTab('python')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 4,
+              padding: '0 10px',
+              height: '100%',
+              fontSize: 11,
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: 0.5,
+              color: activeTab === 'python' ? 'var(--vscode-text-bright)' : 'var(--vscode-text-muted)',
+              borderBottom: activeTab === 'python' ? '2px solid var(--vscode-activity-badge)' : '2px solid transparent',
+            }}
+          >
+            <Code2 size={12} color="#ffd43b" />
+            <span>PYTHON TRANSLATION</span>
+          </button>
+
+          {/* Problems Tab */}
+          <button
+            onClick={() => setActiveTab('problems')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 4,
+              padding: '0 10px',
+              height: '100%',
+              fontSize: 11,
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: 0.5,
+              color: activeTab === 'problems' ? 'var(--vscode-text-bright)' : 'var(--vscode-text-muted)',
+              borderBottom: activeTab === 'problems' ? '2px solid var(--vscode-activity-badge)' : '2px solid transparent',
+            }}
+          >
+            <AlertCircle size={12} color={diagnostics.length > 0 ? '#f14c4c' : 'inherit'} />
+            <span>PROBLEMS</span>
+            {diagnostics.length > 0 && (
+              <span
+                style={{
+                  fontSize: 10,
+                  backgroundColor: 'var(--vscode-error-red)',
+                  color: '#fff',
+                  borderRadius: 8,
+                  padding: '1px 5px',
+                  marginLeft: 2,
+                }}
+              >
+                {diagnostics.length}
+              </span>
+            )}
+          </button>
+        </div>
+
+        {/* Panel controls */}
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <button
+            onClick={() => setHeight(height > 300 ? 160 : 400)}
+            title="Toggle Panel Size"
+            style={{ color: 'var(--vscode-text-muted)', padding: 2 }}
+          >
+            {height > 300 ? <ChevronDown size={14} /> : <ChevronUp size={14} />}
+          </button>
+          <button
+            onClick={onClose}
+            title="Close Panel"
+            style={{ color: 'var(--vscode-text-muted)', padding: 2 }}
+          >
+            <X size={14} />
+          </button>
+        </div>
+      </div>
+
+      {/* Active Tab Content */}
+      <div style={{ flex: 1, overflow: 'hidden' }}>
+        {activeTab === 'terminal' && (
+          <OutputTerminal
+            lastResult={lastResult}
+            isRunning={isRunning}
+            onClear={onClearTerminal}
+            onRun={onRun}
+            stdinBuffer={stdinBuffer}
+            setStdinBuffer={setStdinBuffer}
+            activeFileName={activeFileName}
+          />
+        )}
+        {activeTab === 'python' && (
+          <PythonPreview sourceCode={sourceCode} digits={digits} />
+        )}
+        {activeTab === 'problems' && (
+          <ProblemsView diagnostics={diagnostics} activeFileName={activeFileName} />
+        )}
+      </div>
+    </div>
+  );
+};

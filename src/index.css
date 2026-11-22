@@ -1,0 +1,200 @@
+:root {
+  /* Assamese-first font stacks with Kohinoor Bangla as priority */
+  --font-assamese: 'Kohinoor Bangla', 'Noto Sans Bengali', 'Bangla Sangam MN', 'Vrinda', 'Shonar Bangla', sans-serif;
+  --font-ui: 'Kohinoor Bangla', 'Noto Sans Bengali', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'Fira Code', 'Kohinoor Bangla', 'Noto Sans Bengali', Consolas, 'Courier New', monospace;
+
+  /* Colors identical to official website (asomiya.codes) Light Mode */
+  --cotton: #fafaf9;
+  --mist: #f5f5f4;
+  --mist-2: #f0efee;
+  --surface: #ffffff;
+  --ink: #292524;
+  --ink-2: #57534e;
+  --ink-3: #78716c;
+  --ink-4: #a8a29e;
+  --line: #e7e5e4;
+  --line-2: #dad7d4;
+  --accent: #3f40fa;
+  --accent-hover: #2c2ce0;
+  --accent-ink: #fafaf9;
+  --accent-soft: #ecedff;
+  --logo: #f2c14e;
+  --gold: #c2410c;
+  --tea: #16a34a;
+  --danger: #dc2626;
+
+  /* IDE Workbench Light Theme */
+  --vscode-bg: var(--surface);
+  --vscode-side-bg: var(--mist);
+  --vscode-activity-bg: var(--mist-2);
+  --vscode-activity-active: var(--accent);
+  --vscode-activity-inactive: var(--ink-3);
+  --vscode-activity-badge: var(--accent);
+  --vscode-tab-active-bg: var(--surface);
+  --vscode-tab-inactive-bg: var(--mist);
+  --vscode-tab-border: var(--line);
+  --vscode-border: var(--line);
+  --vscode-hover: var(--mist-2);
+  --vscode-active-selection: var(--accent-soft);
+  --vscode-text: var(--ink);
+  --vscode-text-muted: var(--ink-3);
+  --vscode-text-bright: var(--ink);
+  --vscode-status-bg: var(--accent);
+  --vscode-status-text: #ffffff;
+  --vscode-panel-bg: var(--cotton);
+  --vscode-terminal-bg: var(--surface);
+  --vscode-input-bg: var(--surface);
+  --vscode-input-border: var(--line-2);
+  --vscode-button-bg: var(--accent);
+  --vscode-button-hover: var(--accent-hover);
+  --vscode-run-green: var(--tea);
+  --vscode-run-green-hover: #15803d;
+  --vscode-error-red: var(--danger);
+  --vscode-warning-yellow: var(--gold);
+  --vscode-badge-bg: var(--mist-2);
+}
+
+.dark, :root[data-theme='dark'] {
+  /* Colors identical to official website (asomiya.codes) Dark Mode */
+  --cotton: #141210;
+  --mist: #1c1917;
+  --mist-2: #262220;
+  --surface: #1c1917;
+  --ink: #f5f5f4;
+  --ink-2: #d6d3d1;
+  --ink-3: #a8a29e;
+  --ink-4: #78716c;
+  --line: #2e2a27;
+  --line-2: #3d3835;
+  --accent: #7072ff;
+  --accent-hover: #8c8dff;
+  --accent-ink: #141210;
+  --accent-soft: rgb(112 114 255 / 0.14);
+  --logo: #f2c14e;
+  --gold: #fb923c;
+  --tea: #4ade80;
+  --danger: #f87171;
+
+  /* IDE Workbench Dark Theme */
+  --vscode-bg: var(--surface);
+  --vscode-side-bg: var(--cotton);
+  --vscode-activity-bg: #100f0d;
+  --vscode-activity-active: #ffffff;
+  --vscode-activity-inactive: var(--ink-3);
+  --vscode-activity-badge: var(--accent);
+  --vscode-tab-active-bg: var(--surface);
+  --vscode-tab-inactive-bg: var(--cotton);
+  --vscode-tab-border: var(--line);
+  --vscode-border: var(--line);
+  --vscode-hover: var(--mist-2);
+  --vscode-active-selection: rgb(112 114 255 / 0.22);
+  --vscode-text: var(--ink-2);
+  --vscode-text-muted: var(--ink-3);
+  --vscode-text-bright: var(--ink);
+  --vscode-status-bg: #2d2fa3;
+  --vscode-status-text: #ffffff;
+  --vscode-panel-bg: var(--cotton);
+  --vscode-terminal-bg: #12100e;
+  --vscode-input-bg: var(--cotton);
+  --vscode-input-border: var(--line-2);
+  --vscode-button-bg: var(--accent);
+  --vscode-button-hover: var(--accent-hover);
+  --vscode-run-green: var(--tea);
+  --vscode-run-green-hover: #22c55e;
+  --vscode-error-red: var(--danger);
+  --vscode-warning-yellow: var(--gold);
+  --vscode-badge-bg: var(--mist-2);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--vscode-text);
+  background-color: var(--vscode-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ink-4);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-3);
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Code and Assamese font helpers */
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.font-assamese {
+  font-family: var(--font-assamese);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--vscode-text);
+  background-color: var(--vscode-input-bg);
+  border: 1px solid var(--vscode-input-border);
+  outline: none;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent);
+}
+
+/* Terminal & Assamese output formatting */
+.term-line {
+  white-space: pre-wrap;
+  word-break: break-all;
+  line-height: 1.7;
+  letter-spacing: 0.015em;
+  font-family: var(--font-mono);
+}
+
+/* Ensure Monaco Editor widgets use Kohinoor Bangla & matching colors */
+.monaco-editor,
+.monaco-editor .view-lines,
+.monaco-editor .suggest-widget,
+.monaco-editor .monaco-hover,
+.monaco-editor .hover-contents,
+.monaco-editor .parameter-hints-widget {
+  font-family: 'Fira Code', 'Kohinoor Bangla', 'Noto Sans Bengali', Consolas, monospace !important;
+}
+
+.monaco-editor .suggest-widget .monaco-list-row .label-name {
+  font-family: 'Kohinoor Bangla', 'Noto Sans Bengali', sans-serif !important;
+}
