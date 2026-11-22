@@ -2,7 +2,7 @@
   /* Assamese-first font stacks with Kohinoor Bangla as priority */
   --font-assamese: 'Kohinoor Bangla', 'Noto Sans Bengali', 'Bangla Sangam MN', 'Vrinda', 'Shonar Bangla', sans-serif;
   --font-ui: 'Kohinoor Bangla', 'Noto Sans Bengali', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-mono: 'Fira Code', 'Kohinoor Bangla', 'Noto Sans Bengali', Consolas, 'Courier New', monospace;
+  --font-mono: 'Kohinoor Bangla', 'Noto Sans Bengali', 'Fira Code', Consolas, 'Courier New', monospace;
 
   /* Colors identical to official website (asomiya.codes) Light Mode */
   --cotton: #fafaf9;
@@ -192,33 +192,10 @@ input:focus, textarea:focus, select:focus {
 .monaco-editor .monaco-hover,
 .monaco-editor .hover-contents,
 .monaco-editor .parameter-hints-widget {
-  font-family: 'Fira Code', 'Kohinoor Bangla', 'Noto Sans Bengali', Consolas, monospace !important;
+  font-family: 'Kohinoor Bangla', 'Noto Sans Bengali', 'Fira Code', Consolas, monospace !important;
 }
 
 .monaco-editor .suggest-widget .monaco-list-row .label-name {
   font-family: 'Kohinoor Bangla', 'Noto Sans Bengali', sans-serif !important;
-}
-
-/* xterm.js terminal styling & scrollbars */
-.xterm {
-  height: 100%;
-  padding: 4px 6px;
-}
-
-.xterm .xterm-viewport {
-  background-color: transparent !important;
-}
-
-.xterm .xterm-screen {
-  padding-bottom: 4px;
-}
-
-.xterm-viewport::-webkit-scrollbar {
-  width: 8px;
-}
-
-.xterm-viewport::-webkit-scrollbar-thumb {
-  background: var(--vscode-hover);
-  border-radius: 4px;
 }
 
