@@ -66,30 +66,16 @@ export const ActivityBar: React.FC<ActivityBarProps> = ({
     >
       {/* Top Icons */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'center', width: '100%' }}>
-        {/* Asomiya Logo */}
+        {/* Asomiya logo: the same অ আ ক খ keycaps as asomiya.codes */}
         <a
           href="https://asomiya.codes"
           target="_blank"
           rel="noreferrer"
           title="অসমীয়া (asomiya.codes)"
-          style={{
-            width: 30,
-            height: 30,
-            borderRadius: 7,
-            backgroundColor: 'var(--logo)',
-            color: '#292524',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontWeight: 800,
-            fontSize: 17,
-            fontFamily: 'var(--font-assamese)',
-            textDecoration: 'none',
-            marginBottom: 4,
-            boxShadow: '0 1px 3px rgba(0,0,0,0.18)',
-          }}
+          aria-label="asomiya.codes"
+          style={{ display: 'flex', marginBottom: 4, textDecoration: 'none' }}
         >
-          অ
+          <AsomiyaLogo size={30} />
         </a>
         {topItems.map((item) => {
           const isActive = isSidebarOpen && activeTab === item.id;
@@ -177,3 +163,40 @@ export const ActivityBar: React.FC<ActivityBarProps> = ({
     </div>
   );
 };
+
+/** The asomiya.codes logo: অ on the gold key, আ ক খ on the others. Colours follow the site tokens. */
+function AsomiyaLogo({ size = 30 }: { size?: number }) {
+  const key = (x: number, y: number, letter: string, main: boolean) => (
+    <g key={letter}>
+      <rect
+        x={x}
+        y={y}
+        width={19}
+        height={19}
+        rx={4.5}
+        fill={main ? 'var(--logo)' : 'var(--mist-2)'}
+        stroke={main ? 'none' : 'var(--line-2)'}
+        strokeWidth={0.8}
+      />
+      <text
+        x={x + 9.5}
+        y={y + 14}
+        textAnchor="middle"
+        textLength={letter === 'আ' ? 13.5 : 11}
+        lengthAdjust="spacingAndGlyphs"
+        fill={main ? 'var(--logo-ink, #292524)' : 'var(--ink)'}
+        style={{ font: '700 12.5px var(--font-assamese)' }}
+      >
+        {letter}
+      </text>
+    </g>
+  );
+  return (
+    <svg viewBox="0 0 42 42" width={size} height={size} aria-hidden="true" focusable="false">
+      {key(1, 1, 'অ', true)}
+      {key(22, 1, 'আ', false)}
+      {key(1, 22, 'ক', false)}
+      {key(22, 22, 'খ', false)}
+    </svg>
+  );
+}
