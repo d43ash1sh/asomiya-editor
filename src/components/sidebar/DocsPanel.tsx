@@ -64,7 +64,7 @@ export const DocsPanel: React.FC = () => {
                   title="Copy keyword"
                   style={{ color: 'var(--vscode-text-muted)', padding: 4 }}
                 >
-                  {copiedKey === k.id ? <Check size={12} color="#89d185" /> : <Copy size={12} />}
+                  {copiedKey === k.id ? <Check size={12} color="var(--tea)" /> : <Copy size={12} />}
                 </button>
               </div>
             ))}
@@ -103,7 +103,7 @@ export const DocsPanel: React.FC = () => {
                     title="Copy function"
                     style={{ color: 'var(--vscode-text-muted)', padding: 4 }}
                   >
-                    {copiedKey === key ? <Check size={12} color="#89d185" /> : <Copy size={12} />}
+                    {copiedKey === key ? <Check size={12} color="var(--tea)" /> : <Copy size={12} />}
                   </button>
                 </div>
               );

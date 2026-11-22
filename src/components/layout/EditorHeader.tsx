@@ -1,10 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   X,
   Play,
-  FileCode,
-  FileText,
-  Code,
   Code2,
   Terminal,
   Columns,
@@ -12,6 +9,7 @@ import {
   Check,
   Wand2,
 } from 'lucide-react';
+import { FileTypeIcon } from '../icons';
 import type { VFSProject } from '../../vfs/types';
 import type { PanelTab } from '../../types';
 
@@ -52,14 +50,18 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
   isCopiedShare,
   onFormatDocument,
 }) => {
-  const getFileIcon = (name: string) => {
-    if (name.endsWith('.asom')) return <FileCode size={14} color="#007acc" />;
-    if (name.endsWith('.py')) return <Code size={14} color="#3572A5" />;
-    return <FileText size={14} color="#858585" />;
-  };
+  const getFileIcon = (name: string) => <FileTypeIcon name={name} size={14} />;
+
+  // Keep the active tab visible when it changes (matters most on narrow screens).
+  const tabsRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = tabsRef.current?.querySelector<HTMLElement>('[data-active-tab="true"]');
+    el?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  }, [activeFileId, openTabs.length]);
 
   return (
     <div
+      className="editor-header"
       style={{
         height: 35,
         backgroundColor: 'var(--vscode-side-bg)',
@@ -72,8 +74,12 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
     >
       {/* Tabs */}
       <div
+        className="editor-tabs"
+        ref={tabsRef}
         style={{
           display: 'flex',
+          flex: 1,
+          minWidth: 0,
           overflowX: 'auto',
           height: '100%',
           alignItems: 'stretch',
@@ -87,6 +93,7 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
           return (
             <div
               key={tabId}
+              data-active-tab={isActive ? 'true' : undefined}
               onClick={() => selectTab(tabId)}
               style={{
                 display: 'flex',
@@ -102,12 +109,14 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
               }}
             >
               {getFileIcon(file.name)}
-              <span>{file.name}</span>
+              <span style={{ whiteSpace: 'nowrap' }}>{file.name}</span>
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   closeTab(tabId);
                 }}
+                aria-label={`Close ${file.name}`}
+                className="tab-close"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -128,11 +137,12 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
       </div>
 
       {/* Editor Top Right Actions */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6, paddingRight: 10 }}>
+      <div className="editor-actions" style={{ display: 'flex', alignItems: 'center', gap: 6, paddingRight: 10, paddingLeft: 6, flex: 'none' }}>
         {/* Format Document */}
         <button
           onClick={onFormatDocument}
           title="Format Document (Shift+Alt+F)"
+          aria-label="Format Document (Shift+Alt+F)"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -144,14 +154,15 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
             color: 'var(--vscode-text)',
           }}
         >
-          <Wand2 size={13} color="#569CD6" />
-          <span>Format</span>
+          <Wand2 size={13} />
+          <span className="btn-label">Format</span>
         </button>
 
         {/* Share Snippet */}
         <button
           onClick={onShareSnippet}
           title="Share code as URL snippet"
+          aria-label="Share code as URL snippet"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -160,18 +171,20 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
             backgroundColor: isCopiedShare ? 'var(--vscode-run-green)' : 'var(--vscode-hover)',
             borderRadius: 3,
             fontSize: 12,
-            color: '#ffffff',
+            color: isCopiedShare ? '#ffffff' : 'var(--vscode-text)',
             transition: 'background-color 0.2s',
           }}
         >
           {isCopiedShare ? <Check size={13} /> : <Share2 size={13} />}
-          <span>{isCopiedShare ? 'Copied Link!' : 'Share'}</span>
+          <span className="btn-label">{isCopiedShare ? 'Copied Link!' : 'Share'}</span>
         </button>
 
         {/* Split View */}
         <button
           onClick={toggleSplitView}
           title={isSplitView ? 'Close Split View' : 'Split View: Asomiya & Live Python'}
+          aria-label="Split view"
+          className="hide-mobile"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -184,7 +197,7 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
           }}
         >
           <Columns size={13} />
-          <span>Split</span>
+          <span className="btn-label">Split</span>
         </button>
         {/* Toggle Python Preview */}
         <button
@@ -193,6 +206,8 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
             if (!isBottomPanelOpen) toggleBottomPanel();
           }}
           title="Transpile to Python"
+          aria-label="Transpile to Python"
+          className="hide-mobile"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -204,8 +219,8 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
             color: 'var(--vscode-text)',
           }}
         >
-          <Code2 size={14} color="#ffd43b" />
-          <span>Python</span>
+          <Code2 size={14} />
+          <span className="btn-label">Python</span>
         </button>
 
         {/* Toggle Terminal */}
@@ -215,6 +230,8 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
             if (!isBottomPanelOpen) toggleBottomPanel();
           }}
           title="Terminal Output"
+          aria-label="Terminal Output"
+          className="hide-mobile"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -227,7 +244,7 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
           }}
         >
           <Terminal size={14} />
-          <span>Terminal</span>
+          <span className="btn-label">Terminal</span>
         </button>
 
         {/* Run Active File */}

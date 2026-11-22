@@ -26,6 +26,7 @@ interface BottomPanelProps {
   theme?: 'dark' | 'light';
   fontSize?: number;
   lang?: MessageLanguage;
+  isMobile?: boolean;
 }
 
 export const BottomPanel: React.FC<BottomPanelProps> = ({
@@ -46,38 +47,41 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({
   theme,
   fontSize,
   lang,
+  isMobile = false,
 }) => {
-  const [height, setHeight] = useState(240);
+  const [height, setHeight] = useState(() =>
+    isMobile ? Math.round(window.innerHeight * 0.4) : 240,
+  );
   const isDraggingRef = useRef(false);
   const startYRef = useRef(0);
   const startHeightRef = useRef(240);
 
-  const handleMouseDown = (e: React.MouseEvent) => {
+  // Pointer events cover mouse, touch and pen, so the panel can be resized on phones too.
+  const handlePointerDown = (e: React.PointerEvent) => {
     isDraggingRef.current = true;
     startYRef.current = e.clientY;
     startHeightRef.current = height;
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
     document.body.style.cursor = 'row-resize';
   };
 
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!isDraggingRef.current) return;
+    const deltaY = startYRef.current - e.clientY;
+    const newHeight = Math.max(110, Math.min(window.innerHeight * 0.75, startHeightRef.current + deltaY));
+    setHeight(newHeight);
+  };
+
+  const handlePointerUp = () => {
+    isDraggingRef.current = false;
+    document.body.style.cursor = 'default';
+  };
+
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDraggingRef.current) return;
-      const deltaY = startYRef.current - e.clientY;
-      const newHeight = Math.max(120, Math.min(window.innerHeight * 0.75, startHeightRef.current + deltaY));
-      setHeight(newHeight);
-    };
-
-    const handleMouseUp = () => {
-      isDraggingRef.current = false;
-      document.body.style.cursor = 'default';
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-    };
+    // Keep the panel inside the screen when the window or phone orientation changes.
+    const clamp = () => setHeight((h) => Math.min(h, Math.round(window.innerHeight * 0.75)));
+    window.addEventListener('resize', clamp);
+    return () => window.removeEventListener('resize', clamp);
   }, []);
 
   if (!isOpen) return null;
@@ -97,13 +101,18 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({
     >
       {/* Resizer handle */}
       <div
-        onMouseDown={handleMouseDown}
+        className="panel-resizer"
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
         style={{
           position: 'absolute',
           top: -3,
           left: 0,
           right: 0,
           height: 6,
+          touchAction: 'none',
           cursor: 'row-resize',
           zIndex: 30,
         }}
@@ -160,8 +169,8 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({
               borderBottom: activeTab === 'python' ? '2px solid var(--vscode-activity-badge)' : '2px solid transparent',
             }}
           >
-            <Code2 size={12} color="#ffd43b" />
-            <span>PYTHON TRANSLATION</span>
+            <Code2 size={12} color="var(--accent)" />
+            <span>PYTHON<span className="hide-mobile"> TRANSLATION</span></span>
           </button>
 
           {/* Problems Tab */}
@@ -181,7 +190,7 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({
               borderBottom: activeTab === 'problems' ? '2px solid var(--vscode-activity-badge)' : '2px solid transparent',
             }}
           >
-            <AlertCircle size={12} color={diagnostics.length > 0 ? '#f14c4c' : 'inherit'} />
+            <AlertCircle size={12} color={diagnostics.length > 0 ? 'var(--danger)' : 'inherit'} />
             <span>PROBLEMS</span>
             {diagnostics.length > 0 && (
               <span

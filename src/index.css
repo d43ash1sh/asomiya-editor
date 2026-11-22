@@ -48,8 +48,8 @@
   --vscode-input-border: var(--line-2);
   --vscode-button-bg: var(--accent);
   --vscode-button-hover: var(--accent-hover);
-  --vscode-run-green: var(--tea);
-  --vscode-run-green-hover: #15803d;
+  --vscode-run-green: #15803d;
+  --vscode-run-green-hover: #166534;
   --vscode-error-red: var(--danger);
   --vscode-warning-yellow: var(--gold);
   --vscode-badge-bg: var(--mist-2);
@@ -100,8 +100,8 @@
   --vscode-input-border: var(--line-2);
   --vscode-button-bg: var(--accent);
   --vscode-button-hover: var(--accent-hover);
-  --vscode-run-green: var(--tea);
-  --vscode-run-green-hover: #22c55e;
+  --vscode-run-green: #15803d;
+  --vscode-run-green-hover: #166534;
   --vscode-error-red: var(--danger);
   --vscode-warning-yellow: var(--gold);
   --vscode-badge-bg: var(--mist-2);
@@ -199,3 +199,83 @@ input:focus, textarea:focus, select:focus {
   font-family: 'Kohinoor Bangla', 'Noto Sans Bengali', sans-serif !important;
 }
 
+
+/* ── Layout sizing ─────────────────────────────────────────────────
+   dvh follows the visible area on phones (it shrinks with the browser toolbars). */
+.app-root {
+  height: 100vh;
+  height: 100dvh !important;
+}
+
+.sidebar-backdrop {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 44px;
+  right: 0;
+  background: rgb(0 0 0 / 0.38);
+  z-index: 39;
+}
+
+.editor-tabs {
+  scrollbar-width: none;
+}
+.editor-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Phones and small tablets ─────────────────────────────────────── */
+@media (max-width: 768px) {
+  button {
+    white-space: nowrap;
+  }
+  .activity-bar {
+    width: 44px !important;
+  }
+  .activity-bar button {
+    width: 44px !important;
+  }
+
+  /* The sidebar becomes a drawer over the editor instead of squeezing it. */
+  .side-bar-drawer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 44px;
+    width: min(300px, calc(100vw - 44px - 40px)) !important;
+    z-index: 40;
+    box-shadow: 6px 0 24px rgb(0 0 0 / 0.28);
+  }
+
+  /* Header: tabs scroll sideways; action buttons become icon-only touch targets. */
+  .editor-header {
+    height: 42px !important;
+  }
+  .editor-header .btn-label,
+  .btn-label,
+  .term-target,
+  .hide-mobile,
+  .status-bar .sb-optional {
+    display: none !important;
+  }
+  .editor-actions {
+    gap: 4px !important;
+    padding-right: 6px !important;
+  }
+  .editor-actions button {
+    min-width: 32px;
+    min-height: 32px;
+    justify-content: center;
+    padding: 4px 8px !important;
+  }
+  .tab-close {
+    padding: 6px !important;
+    opacity: 0.8 !important;
+  }
+
+  /* A taller grab area so the bottom panel can be dragged with a finger. */
+  .panel-resizer {
+    top: -9px !important;
+    height: 18px !important;
+  }
+}

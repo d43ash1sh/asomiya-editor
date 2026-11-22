@@ -43,7 +43,7 @@ export const ProblemsView: React.FC<ProblemsViewProps> = ({ diagnostics, activeF
               display: 'flex',
               alignItems: 'center',
               gap: 8,
-              color: '#89d185',
+              color: 'var(--tea)',
               paddingTop: 12,
             }}
           >
@@ -65,7 +65,7 @@ export const ProblemsView: React.FC<ProblemsViewProps> = ({ diagnostics, activeF
                   fontSize: 12,
                 }}
               >
-                <AlertCircle size={15} color="#f14c4c" style={{ marginTop: 2, flexShrink: 0 }} />
+                <AlertCircle size={15} color="var(--danger)" style={{ marginTop: 2, flexShrink: 0 }} />
                 <div style={{ flex: 1 }}>
                   <div style={{ color: 'var(--vscode-text-bright)', whiteSpace: 'pre-wrap' }}>
                     {marker.message}

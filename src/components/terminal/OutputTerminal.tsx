@@ -555,7 +555,7 @@ export const OutputTerminal: React.FC<OutputTerminalProps> = ({
             </span>
           </div>
 
-          <span>
+          <span className="term-target">
             Target: <strong>asomiya run {activeFileName}</strong>
           </span>
 
@@ -591,7 +591,7 @@ export const OutputTerminal: React.FC<OutputTerminalProps> = ({
             }}
           >
             <Play size={11} color="var(--tea)" />
-            <span>Rerun</span>
+            <span className="btn-label">Rerun</span>
           </button>
 
           <button
@@ -610,7 +610,7 @@ export const OutputTerminal: React.FC<OutputTerminalProps> = ({
             }}
           >
             <RotateCcw size={11} />
-            <span>Reset REPL</span>
+            <span className="btn-label">Reset REPL</span>
           </button>
 
           <button
@@ -633,7 +633,7 @@ export const OutputTerminal: React.FC<OutputTerminalProps> = ({
             ) : (
               <Copy size={11} />
             )}
-            <span>Copy</span>
+            <span className="btn-label">Copy</span>
           </button>
 
           <button
@@ -652,7 +652,7 @@ export const OutputTerminal: React.FC<OutputTerminalProps> = ({
             }}
           >
             <Trash2 size={11} />
-            <span>Clear</span>
+            <span className="btn-label">Clear</span>
           </button>
         </div>
       </div>
@@ -685,7 +685,7 @@ export const OutputTerminal: React.FC<OutputTerminalProps> = ({
                 style={{
                   color:
                     line.prompt.trim() === '...>'
-                      ? '#38bdf8'
+                      ? 'var(--accent)'
                       : 'var(--logo)',
                   fontWeight: 700,
                   marginRight: 8,
@@ -711,7 +711,7 @@ export const OutputTerminal: React.FC<OutputTerminalProps> = ({
         >
           <span
             style={{
-              color: isContinuing ? '#38bdf8' : 'var(--logo)',
+              color: isContinuing ? 'var(--accent)' : 'var(--logo)',
               fontWeight: 700,
               marginRight: 8,
               userSelect: 'none',
@@ -769,7 +769,7 @@ export const OutputTerminal: React.FC<OutputTerminalProps> = ({
             fontSize: 11,
           }}
         >
-          $ সোধা() stdin:
+          $ সোধা()<span className="hide-mobile"> stdin:</span>
         </span>
         <input
           type="text"

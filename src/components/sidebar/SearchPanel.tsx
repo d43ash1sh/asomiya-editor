@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Search as SearchIcon, FileCode } from 'lucide-react';
+import { Search as SearchIcon } from 'lucide-react';
+import { FileTypeIcon } from '../icons';
 import type { VFSProject } from '../../vfs/types';
 
 interface SearchPanelProps {
@@ -100,8 +101,8 @@ export const SearchPanel: React.FC<SearchPanelProps> = ({ project, openFile }) =
               fontSize: 12,
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#007acc', fontWeight: 600 }}>
-              <FileCode size={13} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: 'var(--accent)', fontWeight: 600 }}>
+              <FileTypeIcon name={res.fileName} size={13} />
               <span>{res.fileName}:{res.lineNumber}</span>
             </div>
             <div

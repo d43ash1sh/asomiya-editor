@@ -26,8 +26,11 @@ export const StatusBar: React.FC<StatusBarProps> = ({
 
   return (
     <div
+      className="status-bar"
       style={{
         height: 22,
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
         backgroundColor: 'var(--vscode-status-bg)',
         color: 'var(--vscode-status-text)',
         display: 'flex',
@@ -41,7 +44,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({
     >
       {/* Left Items */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+        <div className="sb-optional" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
           <GitBranch size={12} />
           <span>main</span>
         </div>
@@ -51,7 +54,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({
           <span>{errorCount} errors</span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+        <div className="sb-optional" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
           <Globe size={12} />
           <span>editor.asomiya.codes</span>
         </div>
@@ -61,7 +64,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({
       <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
         <div>
           {isRunning ? (
-            <span style={{ color: '#fffb8f' }}>● Running...</span>
+            <span style={{ color: 'var(--logo)' }}>● Running...</span>
           ) : (
             <span style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
               <CheckCircle size={11} /> Ready
@@ -69,11 +72,11 @@ export const StatusBar: React.FC<StatusBarProps> = ({
           )}
         </div>
 
-        <div>
+        <div className="sb-optional">
           <span>Spaces: {settings.tabSize}</span>
         </div>
 
-        <div>
+        <div className="sb-optional">
           <span>UTF-8</span>
         </div>
 
@@ -91,7 +94,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({
           {settings.digits === 'assamese' ? 'Digits: ০-৯' : 'Digits: 0-9'}
         </button>
 
-        <div>
+        <div className="sb-optional">
           <strong>
             {activeFileName.endsWith('.asom')
               ? 'অসমীয়া (Asomiya)'

@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import {
-  FileCode,
-  FileText,
   FilePlus,
   Trash2,
   Download,
   Upload,
   RotateCcw,
-  Code,
   FolderOpen,
 } from 'lucide-react';
+import { FileTypeIcon } from '../icons';
 import type { VFSProject } from '../../vfs/types';
 import { exportProjectAsZip, downloadBlob, importZipToProject } from '../../vfs/zip';
 import { openNativeDirectory, isFileSystemAccessSupported } from '../../vfs/nativeFolder';
@@ -92,15 +90,7 @@ export const FileExplorer: React.FC<FileExplorerProps> = ({
     }
   };
 
-  const getFileIcon = (name: string) => {
-    if (name.endsWith('.asom')) {
-      return <FileCode size={16} color="#007acc" />;
-    }
-    if (name.endsWith('.py')) {
-      return <Code size={16} color="#3572A5" />;
-    }
-    return <FileText size={16} color="#858585" />;
-  };
+  const getFileIcon = (name: string) => <FileTypeIcon name={name} size={16} />;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>

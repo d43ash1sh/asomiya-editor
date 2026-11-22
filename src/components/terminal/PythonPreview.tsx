@@ -54,7 +54,7 @@ export const PythonPreview: React.FC<PythonPreviewProps> = ({ sourceCode, digits
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: 'var(--vscode-text-muted)' }}>
-          <Code2 size={13} color="#ffd43b" />
+          <Code2 size={13} color="var(--accent)" />
           <span>Equivalent Python 3 Translation (via asomiya python transpiler)</span>
         </div>
 
@@ -91,7 +91,7 @@ export const PythonPreview: React.FC<PythonPreviewProps> = ({ sourceCode, digits
                 borderRadius: 2,
               }}
             >
-              {copied ? <Check size={11} color="#89d185" /> : <Copy size={11} />}
+              {copied ? <Check size={11} color="var(--tea)" /> : <Copy size={11} />}
               <span>Copy Python</span>
             </button>
           </div>
@@ -101,7 +101,7 @@ export const PythonPreview: React.FC<PythonPreviewProps> = ({ sourceCode, digits
       {/* Code Display */}
       <div style={{ flex: 1, overflowY: 'auto', whiteSpace: 'pre-wrap', lineHeight: 1.65, fontFamily: 'var(--font-mono)' }}>
         {python ? (
-          <code style={{ color: '#9CDCFE' }}>{python}</code>
+          <code style={{ color: 'var(--accent)' }}>{python}</code>
         ) : (
           <div style={{ color: 'var(--vscode-warning-yellow)' }}>
             {error || 'Unable to transpile active code to Python.'}

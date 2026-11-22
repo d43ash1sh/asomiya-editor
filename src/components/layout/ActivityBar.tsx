@@ -10,6 +10,7 @@ import {
   Moon,
 } from 'lucide-react';
 import type { ActivityTab } from '../../types';
+import { AsomiyaLogo } from '../icons';
 
 interface ActivityBarProps {
   activeTab: ActivityTab;
@@ -19,6 +20,7 @@ interface ActivityBarProps {
   theme: 'dark' | 'light';
   toggleTheme: () => void;
   errorCount: number;
+  onOpenPython: () => void;
 }
 
 export const ActivityBar: React.FC<ActivityBarProps> = ({
@@ -29,8 +31,14 @@ export const ActivityBar: React.FC<ActivityBarProps> = ({
   theme,
   toggleTheme,
   errorCount,
+  onOpenPython,
 }) => {
   const handleTabClick = (tab: ActivityTab) => {
+    // Python has no sidebar panel: open the Python translation panel instead.
+    if (tab === 'python') {
+      onOpenPython();
+      return;
+    }
     if (activeTab === tab && isSidebarOpen) {
       toggleSidebar();
     } else {
@@ -49,6 +57,7 @@ export const ActivityBar: React.FC<ActivityBarProps> = ({
 
   return (
     <div
+      className="activity-bar"
       style={{
         width: 48,
         height: '100%',
@@ -163,40 +172,3 @@ export const ActivityBar: React.FC<ActivityBarProps> = ({
     </div>
   );
 };
-
-/** The asomiya.codes logo: অ on the gold key, আ ক খ on the others. Colours follow the site tokens. */
-function AsomiyaLogo({ size = 30 }: { size?: number }) {
-  const key = (x: number, y: number, letter: string, main: boolean) => (
-    <g key={letter}>
-      <rect
-        x={x}
-        y={y}
-        width={19}
-        height={19}
-        rx={4.5}
-        fill={main ? 'var(--logo)' : 'var(--mist-2)'}
-        stroke={main ? 'none' : 'var(--line-2)'}
-        strokeWidth={0.8}
-      />
-      <text
-        x={x + 9.5}
-        y={y + 14}
-        textAnchor="middle"
-        textLength={letter === 'আ' ? 13.5 : 11}
-        lengthAdjust="spacingAndGlyphs"
-        fill={main ? 'var(--logo-ink, #292524)' : 'var(--ink)'}
-        style={{ font: '700 12.5px var(--font-assamese)' }}
-      >
-        {letter}
-      </text>
-    </g>
-  );
-  return (
-    <svg viewBox="0 0 42 42" width={size} height={size} aria-hidden="true" focusable="false">
-      {key(1, 1, 'অ', true)}
-      {key(22, 1, 'আ', false)}
-      {key(1, 22, 'ক', false)}
-      {key(22, 22, 'খ', false)}
-    </svg>
-  );
-}

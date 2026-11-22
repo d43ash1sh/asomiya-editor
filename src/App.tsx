@@ -19,11 +19,16 @@ import { encodeShareCode, decodeShareCode } from './vfs/share';
 import { formatAsomiyaSource } from './monaco/asomiya-formatter';
 import { PythonPreview } from './components/terminal/PythonPreview';
 import type { editor } from 'monaco-editor';
+import { useIsMobile } from './hooks/useIsMobile';
 
 export const App: React.FC = () => {
+  const isMobile = useIsMobile();
   const [project, setProject] = useState<VFSProject>(() => loadProject());
   const [activeTab, setActiveTab] = useState<ActivityTab>('explorer');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  // Phones start with the code visible; the file list opens as a drawer.
+  const [isSidebarOpen, setIsSidebarOpen] = useState(
+    () => !(typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches),
+  );
   const [isBottomPanelOpen, setIsBottomPanelOpen] = useState(true);
   const [activePanelTab, setActivePanelTab] = useState<PanelTab>('terminal');
   const [lastResult, setLastResult] = useState<RunResult | null>(null);
@@ -223,17 +228,18 @@ export const App: React.FC = () => {
 
   return (
     <div
+      className="app-root"
       style={{
         display: 'flex',
         flexDirection: 'column',
-        width: '100vw',
+        width: '100%',
         height: '100vh',
         overflow: 'hidden',
         backgroundColor: 'var(--vscode-bg)',
       }}
     >
       {/* Main Workspace Body */}
-      <div style={{ display: 'flex', flex: 1, height: 'calc(100vh - 22px)', overflow: 'hidden' }}>
+      <div style={{ display: 'flex', flex: 1, minHeight: 0, overflow: 'hidden', position: 'relative' }}>
         {/* VS Code Activity Bar (Far Left) */}
         <ActivityBar
           activeTab={activeTab}
@@ -245,7 +251,21 @@ export const App: React.FC = () => {
             setSettings((s) => ({ ...s, theme: s.theme === 'dark' ? 'light' : 'dark' }))
           }
           errorCount={diagnostics.length}
+          onOpenPython={() => {
+            setActivePanelTab('python');
+            setIsBottomPanelOpen(true);
+            if (isMobile) setIsSidebarOpen(false);
+          }}
         />
+
+        {/* On phones the sidebar floats over the editor; tapping outside closes it. */}
+        {isMobile && isSidebarOpen && (
+          <div
+            className="sidebar-backdrop"
+            onClick={() => setIsSidebarOpen(false)}
+            aria-hidden="true"
+          />
+        )}
 
         {/* Collapsible Sidebar */}
         <SideBar
@@ -253,7 +273,9 @@ export const App: React.FC = () => {
           isOpen={isSidebarOpen}
           project={project}
           setProject={setProject}
+          isMobile={isMobile}
           openFile={(id) => {
+            if (isMobile) setIsSidebarOpen(false);
             setProject((prev) => {
               const newTabs = prev.openTabs.includes(id) ? prev.openTabs : [...prev.openTabs, id];
               const updated = { ...prev, activeFileId: id, openTabs: newTabs };
@@ -274,6 +296,7 @@ export const App: React.FC = () => {
             display: 'flex',
             flexDirection: 'column',
             flex: 1,
+            minWidth: 0,
             height: '100%',
             overflow: 'hidden',
           }}
@@ -299,10 +322,10 @@ export const App: React.FC = () => {
           />
 
           {/* Monaco Editor Container / Split View */}
-          <div style={{ flex: 1, position: 'relative', overflow: 'hidden', display: 'flex' }}>
+          <div style={{ flex: 1, minHeight: 0, position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: isMobile ? 'column' : 'row' }}>
             {activeFile ? (
               <>
-                <div style={{ flex: 1, height: '100%', position: 'relative' }}>
+                <div style={{ flex: 1, minHeight: 0, minWidth: 0, position: 'relative' }}>
                   <EditorArea
                     content={activeFileContent}
                     onChange={handleContentChange}
@@ -310,14 +333,17 @@ export const App: React.FC = () => {
                     settings={settings}
                     onRun={handleRun}
                     setDiagnostics={setDiagnostics}
+                    isMobile={isMobile}
                   />
                 </div>
                 {isSplitView && (
                   <div
                     style={{
                       flex: 1,
-                      height: '100%',
-                      borderLeft: '1px solid var(--vscode-border)',
+                      minHeight: 0,
+                      minWidth: 0,
+                      borderLeft: isMobile ? 'none' : '1px solid var(--vscode-border)',
+                      borderTop: isMobile ? '1px solid var(--vscode-border)' : 'none',
                       display: 'flex',
                       flexDirection: 'column',
                       backgroundColor: 'var(--vscode-bg)',
@@ -335,6 +361,9 @@ export const App: React.FC = () => {
                   justifyContent: 'center',
                   height: '100%',
                   color: 'var(--vscode-text-muted)',
+                  padding: 24,
+                  textAlign: 'center',
+                  width: '100%',
                 }}
               >
                 No file is currently open. Select or create a file from the explorer.
@@ -361,6 +390,7 @@ export const App: React.FC = () => {
             fontSize={settings.fontSize}
             lang={settings.lang}
             diagnostics={diagnostics}
+            isMobile={isMobile}
           />
         </div>
       </div>

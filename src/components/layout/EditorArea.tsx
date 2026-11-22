@@ -25,6 +25,7 @@ interface EditorAreaProps {
   settings: EditorSettings;
   onRun: () => void;
   setDiagnostics: (markers: editor.IMarkerData[]) => void;
+  isMobile?: boolean;
 }
 
 export const EditorArea: React.FC<EditorAreaProps> = ({
@@ -34,6 +35,7 @@ export const EditorArea: React.FC<EditorAreaProps> = ({
   settings,
   onRun,
   setDiagnostics,
+  isMobile = false,
 }) => {
   const monaco = useMonaco();
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
@@ -129,7 +131,11 @@ export const EditorArea: React.FC<EditorAreaProps> = ({
           tabSize: settings.tabSize,
           fontFamily: "'Fira Code', 'Kohinoor Bangla', 'Noto Sans Bengali', Consolas, monospace",
           fontLigatures: true,
-          minimap: { enabled: true, maxColumn: 80 },
+          minimap: { enabled: !isMobile, maxColumn: 80 },
+          lineNumbersMinChars: isMobile ? 2 : 4,
+          folding: !isMobile,
+          glyphMargin: false,
+          scrollbar: { verticalScrollbarSize: isMobile ? 6 : 12, horizontalScrollbarSize: isMobile ? 6 : 12 },
           scrollBeyondLastLine: false,
           smoothScrolling: true,
           cursorBlinking: 'smooth',

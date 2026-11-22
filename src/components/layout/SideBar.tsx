@@ -18,6 +18,7 @@ interface SideBarProps {
   resetProject: () => void;
   settings: EditorSettings;
   setSettings: React.Dispatch<React.SetStateAction<EditorSettings>>;
+  isMobile?: boolean;
 }
 
 export const SideBar: React.FC<SideBarProps> = ({
@@ -31,11 +32,13 @@ export const SideBar: React.FC<SideBarProps> = ({
   resetProject,
   settings,
   setSettings,
+  isMobile = false,
 }) => {
   if (!isOpen) return null;
 
   return (
     <div
+      className={isMobile ? 'side-bar side-bar-drawer' : 'side-bar'}
       style={{
         width: 250,
         height: '100%',
