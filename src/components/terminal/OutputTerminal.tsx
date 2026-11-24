@@ -7,7 +7,7 @@ import {
   RotateCcw,
   CornerDownLeft,
 } from 'lucide-react';
-import type { DigitSetting, MessageLanguage } from 'asomiya';
+import { LANGUAGE, type DigitSetting, type MessageLanguage } from 'asomiya';
 import type { RunResult } from '../../runner/execution';
 import { BrowserReplSession } from '../../runner/repl';
 
@@ -136,7 +136,7 @@ const INITIAL_LINES: TerminalLine[] = [
   {
     id: 'banner-sub',
     type: 'system',
-    text: '\x1b[90mv0.3.3 | লিখক \x1b[36mhelp\x1b[90m / \x1b[36mসহায়\x1b[90m সাহায্যৰ বাবে, \x1b[36mrun\x1b[90m / \x1b[36mচলাওক\x1b[90m ফাইল চলাবলৈ, \x1b[36mclear\x1b[90m পৰিষ্কাৰ কৰিবলৈ।\x1b[0m',
+    text: `\x1b[90mv${LANGUAGE.version} | লিখক \x1b[36mhelp\x1b[90m / \x1b[36mসহায়\x1b[90m সাহায্যৰ বাবে, \x1b[36mrun\x1b[90m / \x1b[36mচলাওক\x1b[90m ফাইল চলাবলৈ, \x1b[36mclear\x1b[90m পৰিষ্কাৰ কৰিবলৈ।\x1b[0m`,
   },
 ];
 

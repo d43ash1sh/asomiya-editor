@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
-    "asomiya": "^0.3.3",
+    "asomiya": "^0.4.0",
     "jszip": "^3.10.1",
     "lucide-react": "^1.16.0",
     "monaco-editor": "^0.52.2",
