@@ -64,7 +64,7 @@ export const monarchLanguage: languages.IMonarchLanguage = {
   operators: [
     '=', '==', '!=', '<', '<=', '>', '>=',
     '+', '-', '*', '/', '%',
-    '&&', '||', '!', 'আৰু', 'বা', 'aru', 'ba',
+    '&&', '||', '!', 'আৰু', 'বা', 'নহয়', 'aru', 'ba', 'nohoy',
   ],
 
   symbols: /[=><!~?:&|+\-*\/\^%]+/,

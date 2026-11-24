@@ -73,6 +73,11 @@ const KEYWORD_INFO: Readonly<Record<KeywordId, { en: string; as: string; python:
     as: 'যিকোনো এফাল সঁচা হ’লে সঁচা (|| ৰ দৰে)।',
     python: 'or',
   },
+  not: {
+    en: 'Inverts a boolean (same as !).',
+    as: 'সঁচা/মিছা বিপৰীত কৰে (! ৰ দৰে)।',
+    python: 'not',
+  },
 };
 
 const BUILTIN_INFO: Readonly<
